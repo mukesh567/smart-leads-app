@@ -1,4 +1,11 @@
 import express from 'express';
+import crypto from 'crypto';
+
+// Polyfill globalThis.crypto for environments/dependencies that expect it
+if (typeof globalThis.crypto === 'undefined') {
+  (globalThis as any).crypto = crypto;
+}
+
 import dotenv from 'dotenv';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -37,6 +44,6 @@ app.use(errorHandler);
 
 const PORT = process.env.PORT || 5000;
 
-app.listen(PORT, () => {
+app.listen(Number(PORT), '0.0.0.0', () => {
   console.log(`Server running in ${process.env.NODE_ENV} mode on port ${PORT}`);
 });
